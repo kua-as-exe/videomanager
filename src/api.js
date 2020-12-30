@@ -11,10 +11,11 @@ const api = {
             }),
             project: (projectID) => {
                 pre = `${pre}/project/${projectID}`
-            
+                
                 return({
                     get: ()=>pre,
                     delete: ()=>`${pre}/delete`,
+                    outputs: () => `${pre}/outputs`,
                     resources: ()=>{
                         pre = `${pre}/resources`
 
@@ -22,7 +23,8 @@ const api = {
                             get: () => pre,
                             refresh: ()=> `${pre}/refresh`,
                             upload: ()=> `${pre}/upload`,
-                            delete: () => `${pre}/delete`
+                            delete: () => `${pre}/delete`,
+                            mergeVideos: () => `${pre}/mergeVideos`
                         })
                     }
             })}

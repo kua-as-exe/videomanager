@@ -5,6 +5,7 @@ import ResourcesPanel from './Resources/ResourcesPanel';
 import {ProjectContext} from './ProjectPage';
 import About from './About/About';
 import ProcessPanel from './Editor/ProcessPanel';
+import OutputsPanel from './Outputs/OutputsPanel';
 
 const EnProceso = ()=><p className="title is-1 is-fullwidth has-text-centered p-5">En proceso <FaTools/></p>
 
@@ -20,8 +21,8 @@ export default React.memo(({base})=>{
             component: ()=><ProcessPanel tabsBase={base+'/edit'}/>
         },
         {
-            text: 'Audio', to: 'audio',  icon: <FaMusic/>,
-            component: EnProceso,
+            text: 'Salidas', to: 'outputs',  icon: <FaVideo/>,
+            component: OutputsPanel,
         },
         {
             text: '', to: 'about',  icon: <FaCode/>,

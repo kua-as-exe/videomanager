@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback} from 'react'
+import useApi from 'use-http-api';
+import { api } from '../../../../api';
 import { ResourcesList } from './ResourcesList/ResourcesList';
 import VideoView from './VIdeoView/VideoView';
 
@@ -56,38 +58,44 @@ function BasicEditor({projectID, userID, resources}) {
         //changeEditorState('timeline', items);
     }
     
-    const nextVideo = useCallback( async (index) => {
+    const nextVideo = async (index) => {
         let newIndex = index < timeline.length-1? index + 1 : 0;
-        if(newIndex < timeline.length-1 && timeline[newIndex].hidden){
+        if(newIndex < timeline.length && timeline[newIndex].hidden){
             nextVideo(newIndex);
         }else{
-            setEditor({...editor, current: newIndex})
+            console.log(newIndex)
+            changeEditorState('current', newIndex);
         }
         return;
-    }, [])
+    };
 
     useEffect(() => {
         console.log("A")
     }, [timeline])
 
-    /* const getTotalDuration = () => {
-        let duration = 0;
-        editor.resources.forEach( r => duration += r?.metadata?.format?.duration | 0)
-        return toHHMMSS(duration);
-    } */
-
-    /* useEffect(() => {
-        console.log(resources);
-        let timeline = resources.map(resource => ({
-            id: resource.id,
-            hidden: false
-        }))
-        setEditor({
-            current: 0,
-            duration: 0,
-            timeline
+    const [ processResponse, process] = useApi({
+        url: api.user(userID).project(projectID).resources().mergeVideos(),
+        defaultData: [], autoTrigger: false, method: 'POST'
+    });
+    useEffect(()=>{
+        console.log(processResponse);
+    }, [processResponse])
+    const handleProcess = () => {
+        process({
+            timeline: timeline.filter(r => !r.hidden).map( r => (
+                //id: r.id,
+                resources[r.id].fileName
+            ))
         })
-    }, [resources]) */
+    }
+    
+    if(processResponse.loading){
+        return (
+            <div className="box">
+                <div className="notification is-info">PROCESANDO</div>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -97,7 +105,7 @@ function BasicEditor({projectID, userID, resources}) {
                 <div className="column is-5">
                         <ResourcesList
                             button={
-                               ( <button className="button is-link is-outlined is-fullwidth" onClick={()=>alert("A")}>
+                               ( <button className="button is-link is-outlined is-fullwidth" disabled={Object.keys(resources).length == 0 || duration == 0} onClick={handleProcess}>
                                     Boton para hacer algo
                                 </button>)
                             }
