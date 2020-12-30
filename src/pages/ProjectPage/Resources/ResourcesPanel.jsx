@@ -42,13 +42,15 @@ const ResourcesNavbar = React.memo(({projectID, handleUpdate}) => {
 function ResourcesPanel({}) {
     const {project: {id: projectID}, projectDispatch} = useContext(ProjectContext);
     const {id: userID} = useContext(UserContext);
+    
     const [{ loading, data: resources}, getResources] = useApi({
         url: api.user(userID).project(projectID).resources().get(),
         defaultData: [],
     });
-    const [{status: deleteStatus}, deleteResource] = useApi({
+    const [{status: deleteStatus, error}, deleteResource] = useApi({
         url: api.user(userID).project(projectID).resources().delete(), defaultData: [], autoTrigger: false, method: 'POST'
     });
+    if(error) console.log(error)
     const handleUpdate = useCallback(() =>  getResources(), [projectID] )
     const handleDelete = useCallback((resourceID)=> {
         deleteResource({resourceID})
@@ -71,9 +73,9 @@ function ResourcesPanel({}) {
                         <ResourceCard
                             userID={userID}
                             projectID={projectID}
-                            handleDelete={()=>handleDelete(resource.name)}
+                            handleDelete={()=>handleDelete(resource.id)}
                             key={resource.id}
-                            {...resource}/>
+                            resourceData={resource}/>
                     )}
                 </div>
             }

@@ -26,7 +26,7 @@ const aligns = {
     'right': 'is-right'
 }
 
-const BulmaTabs = (
+const BulmaTabs = React.memo((
     {   // default params
         base, 
         tabs = [{text:'', to:'', icon:<></>}], 
@@ -39,7 +39,7 @@ const BulmaTabs = (
 
     const location = useLocation()
     // Check if is on path
-    const getNavLinkClass = (path) => location.pathname === path ? activeClass : '';
+    const getNavLinkClass = (path) => location.pathname.includes(path) ? activeClass : '';
 
     return (
         <>
@@ -80,7 +80,7 @@ const BulmaTabs = (
             </Switch>
         </>
     )
-}
+})
 
 const {string, bool, element, arrayOf, shape} = PropTypes;
 

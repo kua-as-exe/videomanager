@@ -24,11 +24,15 @@ export default function ProjectPage() {
         autoTrigger: false,
         bodyData: {project: {}}
     })
-    console.log(project)
+    
+    const [{}, refreshProject] = useApi({
+        url: api.user(userID).project(projectID).resources().refresh(), 
+        defaultData: [], autoTrigger: false, method: 'POST'
+    });
 
     useEffect(async () => {
-        getProject()
-        console.log(project);
+        await refreshProject();
+        await getProject();
     }, [])
 
 

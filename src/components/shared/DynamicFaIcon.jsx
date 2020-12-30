@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaCircle, FaFile, FaImage, FaMusic, FaVideo } from 'react-icons/fa'
+import { FaCircle, FaFile, FaImage, FaMusic, FaPlay, FaVideo } from 'react-icons/fa'
 
 const fileTypeIcons = {
     'audio': FaMusic,
@@ -9,9 +9,14 @@ const fileTypeIcons = {
     'default': FaFile
 }
 
-function DynamicFaIcon({fileType = 'default', exact = false, ...rest}) {
-    let Icon = FaFile
+const playbackIcons = {
+    'current': FaPlay,
+}
+
+function DynamicFaIcon({fileType, playback, exact = false, ...rest}) {
+    let Icon = ()=><></>
     if(fileType){
+        Icon = FaFile
         if(exact)
             Icon = fileTypeIcons[fileType] || Icon;
         else {
@@ -19,6 +24,19 @@ function DynamicFaIcon({fileType = 'default', exact = false, ...rest}) {
                     Object.keys(fileTypeIcons)
                         .find(  type => 
                             fileType.toLowerCase()
+                            .includes(type.toLowerCase()
+                    ))]
+                || Icon
+        }
+    }
+    if(playback){
+        if(exact)
+            Icon = playbackIcons[playback] || Icon;
+        else {
+            Icon = playbackIcons[
+                    Object.keys(playbackIcons)
+                        .find(  type => 
+                            playback.toLowerCase()
                             .includes(type.toLowerCase()
                     ))]
                 || Icon

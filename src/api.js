@@ -20,6 +20,7 @@ const api = {
 
                         return ({
                             get: () => pre,
+                            refresh: ()=> `${pre}/refresh`,
                             upload: ()=> `${pre}/upload`,
                             delete: () => `${pre}/delete`
                         })

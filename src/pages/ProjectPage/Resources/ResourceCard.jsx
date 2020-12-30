@@ -5,12 +5,20 @@ import PropTypes from 'prop-types'
 import { ProjectContext } from '../ProjectPage';
 import DynamicFaIcon from '../../../components/shared/DynamicFaIcon';
 import { useContext } from 'react/cjs/react.development';
+import BulmaModal from '../../../components/shared/BulmaModal';
 
-function ResourceCard({name, fileName, uploaded, id, mimetype, projectID, handleDelete, userID}) {
-    const src = `/api/user/${userID}/project/${projectID}/resources/${name}`
+function ResourceCard({handleDelete, userID, projectID, resourceData }) {
+    const { name, fileName, uploaded, id, mimetype } = resourceData
+    const [infoModal, setInfoModal] = useState(false)
+    const src = `/api/user/${userID}/project/${projectID}/resources/${fileName}`
 
     return (
         <div className="column is-4">
+        
+        <BulmaModal show={infoModal} close={()=>setInfoModal(false)} title={`${name}`}>
+            <pre>{JSON.stringify(resourceData, null, 2)}</pre>
+        </BulmaModal>
+
         <div className="card">
             <header className="card-header">
                 <p className="card-header-title pr-0" style={{whiteSpace: 'nowrap', overflowX: 'hidden'}}>
@@ -34,8 +42,8 @@ function ResourceCard({name, fileName, uploaded, id, mimetype, projectID, handle
                 </div> */}
             </div>
             <footer className="card-footer">
-                <a onClick={()=>console.log("A")} className="card-footer-item">Ver</a>
-                <a onClick={()=>console.log("A")} className="card-footer-item">Editar</a>
+                <a onClick={()=>console.log("A")} disabled={true} className="card-footer-item">Editar</a>
+                <a onClick={()=>setInfoModal(true)} className="card-footer-item">Ver</a>
                 <a onClick={handleDelete} className="card-footer-item">Eliminar</a>
             </footer>
         </div>

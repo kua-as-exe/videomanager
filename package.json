@@ -10,6 +10,7 @@
     "bulma": "^0.9.1",
     "react": "^17.0.1",
     "react-axios": "^2.0.4",
+    "react-beautiful-dnd": "^13.0.0",
     "react-device-detect": "^1.14.0",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
@@ -19,6 +20,7 @@
     "react-router-dom": "^5.2.0",
     "react-router-hash-link": "^2.3.1",
     "react-scripts": "4.0.1",
+    "react-use": "^15.3.4",
     "use-http-api": "^0.1.0",
     "web-vitals": "^0.2.4"
   },
@@ -46,5 +48,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:9000"
+  "proxy": "http://localhost:9000",
+  "devDependencies": {
+    "@creativebulma/bulma-tooltip": "^1.2.0"
+  }
 }

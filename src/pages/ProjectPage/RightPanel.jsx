@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import { FaAccessibleIcon, FaArrowCircleDown, FaCode, FaDashcube, FaEnvelopeOpenText, FaFileArchive, FaMusic, FaTools } from 'react-icons/fa'
+import { FaAccessibleIcon, FaArrowCircleDown, FaCode, FaDashcube, FaEnvelopeOpenText, FaFileArchive, FaMusic, FaTools, FaVideo } from 'react-icons/fa'
 import BulmaTabs from '../../components/shared/BulmaTabs'
 import ResourcesPanel from './Resources/ResourcesPanel';
 import {ProjectContext} from './ProjectPage';
 import About from './About/About';
+import ProcessPanel from './Editor/ProcessPanel';
 
 const EnProceso = ()=><p className="title is-1 is-fullwidth has-text-centered p-5">En proceso <FaTools/></p>
 
@@ -15,30 +16,8 @@ export default React.memo(({base})=>{
             component: ResourcesPanel
         },
         {
-            text: 'Entradas', to: 'openings', icon: <FaEnvelopeOpenText/>,
-            component: ()=>(
-                <BulmaTabs 
-                base={`${base}/openings`}
-                tabsClass="mb-3"
-                fullWith={false}
-                tabsStyle="default"
-                align="left"
-                size="small"
-                tabs={[
-                    {
-                        text: 'A',
-                        to: 'a', 
-                        component: EnProceso,
-                        icon: <FaMusic/>
-                    },
-                    {
-                        text: 'B',
-                        to: 'b', 
-                        component: EnProceso,
-                        icon: <FaMusic/>
-                    },
-                ]}/>
-            ),
+            text: 'Editor', to: 'edit', icon: <FaVideo/>,
+            component: ()=><ProcessPanel tabsBase={base+'/edit'}/>
         },
         {
             text: 'Audio', to: 'audio',  icon: <FaMusic/>,
