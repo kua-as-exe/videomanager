@@ -1,0 +1,26 @@
+
+@import '../../node_modules/primeflex/src/_variables.scss';
+// @import '../../node_modules/primeflex/src/_grid.scss';
+// @import '../../node_modules/primeflex/src/_formlayout.scss';
+@import '../../node_modules/primeflex/src/_display.scss';
+@import '../../node_modules/primeflex/src/_text.scss';
+@import '../../node_modules/primeflex/src/flexbox/_flexbox.scss';
+@import '../../node_modules/primeflex/src/_spacing.scss';
+// @import '../../node_modules/primeflex/src/_elevation.scss';
+
+.hoverScrollable {
+  overflow: hidden;
+  line-height: 20px;
+  width: 200px;
+  height: 20px;
+  position: relative;
+}
+.hoverScrollable span {
+  position: absolute;
+  white-space: nowrap;
+  transform: translateX(0);
+  transition: 1s;
+}
+.hoverScrollable:hover span {
+  transform: translateX(calc(200px - 100%));
+}
