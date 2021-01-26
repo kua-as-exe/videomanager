@@ -2,11 +2,12 @@ import project from './project/project';
 import projects from './projects/projects';
 import * as express from 'express';
 import { join } from 'path';
-import { existUser, useApi, users } from './helpers';
+import { createDirIfNotExists, existUser, useApi, users } from './helpers';
 import { existsSync, readdirSync } from 'fs';
 
 var api = express.Router();
 
+createDirIfNotExists('./contents/users');
 /* Object.keys(users).forEach( user => {
     api.use(`/user/${user}/media`, express.static(join(users[user],'projects')));
 }) */

@@ -9,10 +9,12 @@ export const kdenliveProjectBase = "./helpers/project-base.kdenlive";
 export const users:{
   [userID:string]: string
 } = {
-  'Cranki220': "C:/ARREOLA/Media/Cranki220/MyVideos"
+  //'Cranki220': "C:/ARREOLA/Media/Cranki220/MyVideos"
+  'Cranki220': "./contents/users/Cranki220"
 }
 
 export const existUser = (userID: string) => users[userID]? true: false;
+export const createDirIfNotExists = (path: string) => !existsSync(path)? mkdirSync(path, {recursive: true}): null;
 
 export interface Resource {
   uploaded: Date,
@@ -29,6 +31,7 @@ export const useApi = (req: Request, res?: Response, next?: NextFunction) => {
   let userID = String(req.params.userID);
   let directory = users[userID];
   let projectsDir = join(directory,'projects');
+  createDirIfNotExists(projectsDir);
 
   let projectID = String(req.params.projectID);
   let projectPath, resourcesPath, resourcesJSONPath, outputsPath, error, resourcesData:Resource[], writeResourcesData,trashPath;
@@ -42,11 +45,11 @@ export const useApi = (req: Request, res?: Response, next?: NextFunction) => {
   resourcesJSONPath = join(resourcesPath, 'resources.json');
 
   trashPath = join(resourcesPath, 'trash');
-  if(!existsSync(trashPath)) mkdirSync(trashPath);
+  createDirIfNotExists(trashPath)
   
   
   outputsPath = join(projectPath, 'outputs');
-  if(!existsSync(outputsPath)) mkdirSync(outputsPath);
+  createDirIfNotExists(outputsPath)
 
   error = null
   resourcesData  = []

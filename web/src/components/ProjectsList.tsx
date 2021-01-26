@@ -8,11 +8,13 @@ import ProjectCard from './ProjectCard';
 
 export default function ProjectsList() {
     const user = React.useContext(UserContext)
-    const [{ loading, data, error, initialLoad}, getProjects] = useApi({
+    const [{ loading, data: response, error, initialLoad}, getProjects] = useApi({
         url: api.user(user.id).projects().get(), 
         defaultData: [], 
-        autoTrigger: false
+        autoTrigger: false,
+        method: 'GET'
     });
+    let data: any[] = response as any[];
     
     useEffect(() => {
         console.log("Actualizando");
@@ -48,7 +50,7 @@ export default function ProjectsList() {
         </>
     
     const Error = () => 
-        <div class="notification is-danger">
+        <div className="notification is-danger">
             {String(error)}
         </div>
     

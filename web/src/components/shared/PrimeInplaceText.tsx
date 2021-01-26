@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Inplace, InplaceDisplay, InplaceContent } from 'primereact/inplace';
 import { InputText } from 'primereact/inputtext';
 
-function PrimeInplaceText({value = "", setValue = ()=>{}, initialValue = "", onExit=()=>{}}) {
+function PrimeInplaceText({value = "", setValue = (value?)=>{}, initialValue = "", onExit=(value?)=>{}}) {
     const [active, setActive] = React.useState(false)
     const [innerValue, setInnerValue] = React.useState(initialValue)
 
@@ -27,7 +27,7 @@ function PrimeInplaceText({value = "", setValue = ()=>{}, initialValue = "", onE
                     style={{width: '100%'}}
                     onBlur={exit}
                     value={initialValue? innerValue: value} 
-                    onChange={(e) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if(initialValue) setInnerValue(e.target.value)
                         else setValue(e.target.value);
                     }}

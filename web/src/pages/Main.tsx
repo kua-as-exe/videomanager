@@ -5,7 +5,7 @@ import HomePage from './HomePage/HomePage'
 import ProjectPage from './ProjectPage/ProjectPage'
 import { useParams } from 'react-router-dom'
 
-export const UserContext = React.createContext({user: { name:'', id: ''}})
+export const UserContext = React.createContext({ name:'', id: ''})
 
 function Main() {
     const [user, setUser] = useState({name: '', id: '', logo: '/logo.png'})

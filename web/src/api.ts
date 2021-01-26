@@ -7,7 +7,7 @@ const api = {
         return ({
             projects: ()=>({
                 get: ()=>`${pre}/projects`,
-                new: (projectName)=>`${pre}/projects/new?name=${projectName}`
+                new: (projectName?)=>`${pre}/projects/new?`+(projectName?`name=${projectName}`:'')
             }),
             project: (projectID) => {
                 pre = `${pre}/project/${projectID}`

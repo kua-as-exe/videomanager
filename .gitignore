@@ -1,5 +1,6 @@
 node_modules/
-./web/build
+/web/build/*
+/backend/contents/*
 
 #misc
 .DS_Store
@@ -7,6 +8,10 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
+.eslintcache
+
+debug.log
+.eslintcache
 
 npm-debug.log*
 yarn-debug.log*

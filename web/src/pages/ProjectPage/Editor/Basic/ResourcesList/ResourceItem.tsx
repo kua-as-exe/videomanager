@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const toHHMMSS = (seconds)  => new Date(seconds * 1000).toISOString().substr(11, 8)
 
-function ResourceItem({current, hidden, id, index, setCurrent, resources, setVideo}) {
+function ResourceItem({current, hidden, id, index, setCurrent, resources, setVideo}): React.ReactElement {
     
     let item = Object.assign({}, resources[id]);
     let {name, metadata} = item;

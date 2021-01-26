@@ -26,10 +26,10 @@ const aligns = {
     'right': 'is-right'
 }
 
-const BulmaTabs = React.memo((
+const BulmaTabs = (
     {   // default params
         base, 
-        tabs = [{text:'', to:'', icon:<></>}], 
+        tabs = [{text:'', to:'', icon:<></>, component: ()=>(<></>)}], 
         tabsClass='', 
         tabsStyle="default",
         fullWith=false,
@@ -80,7 +80,7 @@ const BulmaTabs = React.memo((
             </Switch>
         </>
     )
-})
+};
 
 const {string, bool, element, arrayOf, shape} = PropTypes;
 
@@ -98,5 +98,5 @@ BulmaTabs.propTypes = {
     size: string,
 }
 
-export default BulmaTabs
+export default React.memo(BulmaTabs)
 

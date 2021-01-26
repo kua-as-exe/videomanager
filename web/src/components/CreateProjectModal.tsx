@@ -4,7 +4,12 @@ import BulmaModal from './shared/BulmaModal'
 import { useForm } from '../hooks/useForm';
 import { api } from '../api';
 
-function CreateProjectModal(props) {
+function CreateProjectModal(props: {
+    userID: string,
+    done: ()=>void,
+    close: ()=>void,
+    [key: string]: any
+}) {
     const initialForm = {
         name: '',
     };

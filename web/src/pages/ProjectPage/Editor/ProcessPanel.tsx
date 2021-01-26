@@ -7,14 +7,17 @@ import { UserContext } from '../../Main';
 import { ProjectContext } from '../ProjectPage';
 import BasicEditor from './Basic/BasicEditor'
 
-export default React.memo(({tabsBase})=>{
+export default React.memo(({tabsBase}: {tabsBase: any})=>{
     const {project: {id: projectID}} = useContext(ProjectContext);
     const {id: userID} = useContext(UserContext);
     const [resources, setResources] = useState({})
-    const [{ resourcesLoading, data: resourcesArray, error, resourcesInitialLoad}, getResources] = useApi({
+    const [{ loading: resourcesLoading, data, error, initialLoad: resourcesInitialLoad}, getResources] = useApi({
         url: api.user(userID).project(projectID).resources().get(),
-        defaultData: []
+        defaultData: [],
+        method: 'GET',
+        autoTrigger: false
     });
+    const resourcesArray = data as any[]
     useEffect(() => {
         let temp = {}
         resourcesArray.filter(r => r.mimetype.includes('video')).forEach(r => {

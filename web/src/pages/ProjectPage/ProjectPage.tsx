@@ -14,7 +14,11 @@ const Error = ({title, message}) => (
         <Link className="button is-primary" to="/">Go back to projects</Link>
     </div>
 )
-export const ProjectContext = React.createContext({project:{}, projectDispatch: ()=>{}});
+export const ProjectContext: React.Context<{
+    project: {
+        id
+    }, projectDispatch: ()=>{}
+}> = React.createContext({project:{}, projectDispatch: ()=>{}});
 
 export default function ProjectPage() {
     const { projectID, userID } = useParams();
@@ -22,7 +26,8 @@ export default function ProjectPage() {
     let [{loading, data: project, error, initialLoad}, getProject] = useApi({
         url: api.user(userID).project(projectID).get(),
         autoTrigger: false,
-        defaultData: {project: {}}
+        defaultData: {project: {}},
+        method: 'GET'
     })
     
     const [{}, refreshProject] = useApi({

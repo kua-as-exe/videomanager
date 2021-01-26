@@ -9,7 +9,11 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-const ItemList = React.memo(({ items, ItemsComponent, props}) => {
+const ItemList = React.memo(({ items = [], ItemsComponent, props}:{
+    items: any;
+    ItemsComponent: React.JSXElementConstructor<any>;
+    props: object
+}) => {
     return items.map((item, index) => (
         <Draggable draggableId={item.id} index={index}  key={item.id}>
         {(provided) => (

@@ -5,7 +5,7 @@ import Button from './button'
 import StopButton from './stop-button'
 import Timer from './timer'
 import Countdown from './countdown'
-import RecordButton from './record-button.jsx'
+import RecordButton from './record-button'
 
 const ActionsWrapper = styled.div`
   position: absolute;

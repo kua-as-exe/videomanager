@@ -8,6 +8,8 @@
     "shared"
   ],
   "scripts": {
+    "web": "powershell; cd ./web ; npm run start",
+    "server": "powershell; cd ./backend ; nodemon",
     "build": "powershell; cd ./client ; npm run build; cd ../ ; npm run move; echo 'Done'",
     "move": "powershell; rm -r ./api/public/* ; cp -r ./client/build/* ./api/public/"
   },

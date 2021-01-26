@@ -23,14 +23,15 @@ function BulmaNavbar({links = [], logoUrl = '', brandText = ''}) {
 
     const exit = () => setIsActive(false);
     const Links = () => {
-        return links.map( link => (
+        return ( 
+        <>{links.map( link => (
             <Link className="navbar-item" 
                 to={link.to}
                 key={link.to}
                 onClick={exit}>
                 {link.text}
             </Link>
-        ))
+        ))}</>)
     }
 
     return (

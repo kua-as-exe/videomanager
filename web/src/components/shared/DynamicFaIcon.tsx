@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaCircle, FaFile, FaImage, FaMusic, FaPlay, FaVideo } from 'react-icons/fa'
+import { FaCircle, FaFile, FaIcons, FaImage, FaMusic, FaPlay, FaVideo } from 'react-icons/fa'
+import { IconType } from 'react-icons/lib'
 
 const fileTypeIcons = {
     'audio': FaMusic,
@@ -13,8 +14,13 @@ const playbackIcons = {
     'current': FaPlay,
 }
 
-function DynamicFaIcon({fileType, playback, exact = false, ...rest}) {
-    let Icon = ()=><></>
+function DynamicFaIcon({fileType, playback, exact = false, ...rest}:{
+    fileType?: string;
+    playback?: string;
+    exact?: boolean;
+    [key: string]: any 
+}) {
+    let Icon: IconType = FaIcons;
     if(fileType){
         Icon = FaFile
         if(exact)
