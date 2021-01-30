@@ -111,7 +111,7 @@ const Actions = ({
 
   return (
     <div>
-      {isRecording && <Timer timeLimit={timeLimit} />}
+      {isRecording && <Timer defaultText="0:00" timeLimit={timeLimit} />}
       {isRunningCountdown && <Countdown countdownTime={countdownTime} />}
       <ActionsWrapper>{renderContent()}</ActionsWrapper>
     </div>

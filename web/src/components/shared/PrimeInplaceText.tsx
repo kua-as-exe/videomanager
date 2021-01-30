@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Inplace, InplaceDisplay, InplaceContent } from 'primereact/inplace';
 import { InputText } from 'primereact/inputtext';
 
-function PrimeInplaceText({value = "", setValue = (value?)=>{}, initialValue = "", onExit=(value?)=>{}}) {
+function PrimeInplaceText({value = "", setValue = (value?)=>{}, initialValue = "", onExit=(value?)=>{}, className=""}) {
     const [active, setActive] = React.useState(false)
     const [innerValue, setInnerValue] = React.useState(initialValue)
 
@@ -14,7 +14,8 @@ function PrimeInplaceText({value = "", setValue = (value?)=>{}, initialValue = "
     }
     
     return (
-        <Inplace 
+        <Inplace
+            className={className}
             style={{width: '100%'}}
             active={active} 
             onToggle={(e) => setActive(e.value)}>

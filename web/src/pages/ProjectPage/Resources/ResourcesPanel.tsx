@@ -13,7 +13,9 @@ import EditSidebar from './Edit/EditSidebar';
 
 import Record from './Record/Record';
 
-const ResourcesNavbar = React.memo(({projectID, handleUpdate, handleRecord}) => {
+const ResourcesNavbar = React.memo(({projectID, handleUpdate}:{
+    projectID, handleUpdate
+}) => {
     const [uploadModal, setUploadModal] = useState(false)
     const [recordModal, setRecordModal] = useState(false)
     
@@ -62,10 +64,11 @@ function ResourcesPanel({}) {
 
     
     const [resources, setResources] = useState([])
-    const [{ loading, data: resourcesData, error}, getResources] = useApi({
+    const [{ loading, data, error}, getResources] = useApi({
         url: api.user(userID).project(projectID).resources().get(),
-        defaultData: [],
+        defaultData: [], autoTrigger: false, method: 'GET'
     });
+    const resourcesData = data as any
     const [{status: deleteStatus, error: deleteError}, deleteResource] = useApi({
         url: api.user(userID).project(projectID).resources().delete(), defaultData: [], autoTrigger: false, method: 'POST'
     });

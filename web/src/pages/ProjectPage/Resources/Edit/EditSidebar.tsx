@@ -4,7 +4,15 @@ import { Button } from 'primereact/button';
 import PreviewMedia from '../../../../components/shared/PreviewMedia';
 import EditVideo from './Media/Videos/EditVideo';
 
-export const ResourceContext = React.createContext({resourceData: {}})
+export const ResourceContext: React.Context<{
+    resourceData?: {
+        name
+        mimetype
+        size
+        fileName
+        metadata?: any
+    }
+}> = React.createContext({})
 
 export default ({sidebar, setSidebar, userID, projectID, resourceData, ...rest}) => {
     const {fileName, mimetype} = resourceData;

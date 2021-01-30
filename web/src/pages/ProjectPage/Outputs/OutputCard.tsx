@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FaVideo } from 'react-icons/fa'
 import DynamicFaIcon from '../../../components/shared/DynamicFaIcon'
 
-function OutputCard({handleDelete, userID, projectID, resourceData }) {
+function OutputCard({handleDelete=()=>{}, userID, projectID, resourceData }) {
     const fileName = resourceData
     /* const [infoModal, setInfoModal] = useState(false) */
     const src = `/api/user/${userID}/project/${projectID}/outputs/${fileName}`

@@ -11,10 +11,16 @@ function OutputsPanel() {
     const {project: {id: projectID} } = useContext(ProjectContext);
     const {id: userID} = useContext(UserContext);
     
-    const [{ loading, data: resources}, getResources] = useApi({
+    const [{ loading, data}, getResources] = useApi({
         url: api.user(userID).project(projectID).outputs(),
         defaultData: [],
+        autoTrigger: true,
+        method: 'GET'
     });
+    const resources = data as {
+        id: string,
+        [key: string]: any
+    }[];
 
     return (
         <div className="box p-0">

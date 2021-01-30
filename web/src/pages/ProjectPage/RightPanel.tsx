@@ -9,26 +9,8 @@ import OutputsPanel from './Outputs/OutputsPanel';
 
 const EnProceso = ()=><p className="title is-1 is-fullwidth has-text-centered p-5">En proceso <FaTools/></p>
 
-export default React.memo(({base})=>{
+export default React.memo(({base}:{base})=>{
     console.log("Right Panel");
-    const sections = [
-        {
-            text: 'Recursos', to: 'resources', icon: <FaFileArchive/>,
-            component: ResourcesPanel
-        },
-        {
-            text: 'Editor', to: 'edit', icon: <FaVideo/>,
-            component: ()=><ProcessPanel tabsBase={base+'/edit'}/>
-        },
-        {
-            text: 'Salidas', to: 'outputs',  icon: <FaVideo/>,
-            component: OutputsPanel,
-        },
-        {
-            text: '', to: 'about',  icon: <FaCode/>,
-            component: About,
-        },
-    ]
 
     return (
         <>
@@ -38,7 +20,24 @@ export default React.memo(({base})=>{
                 fullWith={true}
                 tabsStyle="default"
                 align="centered"
-                tabs={sections}/>
+                tabs={[
+                    {
+                        text: 'Recursos', to: 'resources', icon: <FaFileArchive/>,
+                        component: ResourcesPanel
+                    },
+                    {
+                        text: 'Editor', to: 'edit', icon: <FaVideo/>,
+                        component: ()=><ProcessPanel tabsBase={base+'/edit'}/>
+                    },
+                    {
+                        text: 'Salidas', to: 'outputs',  icon: <FaVideo/>,
+                        component: OutputsPanel,
+                    },
+                    {
+                        text: '', to: 'about',  icon: <FaCode/>,
+                        component: About,
+                    },
+                ]}/>
         </>
     )
 })

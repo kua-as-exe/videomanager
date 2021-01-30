@@ -14,30 +14,35 @@ const Error = ({title, message}) => (
         <Link className="button is-primary" to="/">Go back to projects</Link>
     </div>
 )
+export interface ProjectData {
+    id: string
+}
 export const ProjectContext: React.Context<{
-    project: {
-        id
-    }, projectDispatch: ()=>{}
-}> = React.createContext({project:{}, projectDispatch: ()=>{}});
+    project?: ProjectData,
+    projectDispatch?: ()=>{}
+}> = React.createContext({});
 
 export default function ProjectPage() {
     const { projectID, userID } = useParams();
     
-    let [{loading, data: project, error, initialLoad}, getProject] = useApi({
+    let [{loading, data, error, initialLoad}, getProject] = useApi({
         url: api.user(userID).project(projectID).get(),
         autoTrigger: false,
         defaultData: {project: {}},
         method: 'GET'
     })
+    const project = data as ProjectData;
     
     const [{}, refreshProject] = useApi({
         url: api.user(userID).project(projectID).resources().refresh(), 
         defaultData: [], autoTrigger: false, method: 'POST'
     });
 
-    useEffect(async () => {
-        await refreshProject();
-        await getProject();
+    useEffect(() => {
+        ( async ()=>{
+            await refreshProject();
+            await getProject();
+        })()
     }, [])
 
 
@@ -50,12 +55,12 @@ export default function ProjectPage() {
             {   
                 initialLoad || loading? <>CARGANDO</>:
                 error?
-                    <Error title="Wops :(" message={project.error}/>
+                    <Error title="Wops :(" message={error}/>
                 :
                 <div className="columns">
 
                     <div className="column is-3">
-                        <LeftPanel {...project} userID={userID}/>
+                        <LeftPanel userID={userID} projectData={project}/>
                     </div>
                     <div className="column is-9">
                         <RightPanel base={`/${userID}/${projectID}`}/>

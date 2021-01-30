@@ -19,6 +19,8 @@ import {SplitButton} from 'primereact/splitbutton';
 import ProcessDialogue from './ProcessDialogue'
 import { useDebounce } from "react-recipes";
 
+import {isEqual} from 'lodash';
+
 const now = new Date();
 const clearDate = set(now, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
 
@@ -126,7 +128,8 @@ function Cut() {
                 <Tag className="" value={format(selectedInterval[1], "HH:mm:ss")}></Tag>
             </div>
         </div>
-    ), [selectedInterval])
+    ), (prev, next) => isEqual(prev, next) )
+    
 
     const [processModal, setProcessModal] = React.useState({
         visible: false, options: {mode: PROCESS_MODES.SAVE_INDEPENDENT},

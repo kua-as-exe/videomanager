@@ -20,7 +20,10 @@ export default class Countdown extends Component {
   static propTypes = {
     countdownTime: PropTypes.number
   }
-
+  timeout;
+  state = {
+    number: 0
+  }
   constructor (props) {
     super(props)
 

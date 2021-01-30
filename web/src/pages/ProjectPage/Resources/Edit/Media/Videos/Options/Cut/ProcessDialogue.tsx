@@ -10,7 +10,7 @@ import { getTotalSeconds } from '../../../../../../../../helpers';
 import { Toast } from 'primereact/toast';
 
 function useInterval(callback, delay) {
-    const savedCallback = React.useRef();
+    const savedCallback = React.useRef() as {current: ()=>void};
   
     // Remember the latest callback.
     React.useEffect(() => {
@@ -28,7 +28,9 @@ function useInterval(callback, delay) {
       }
     }, [delay]);
   }
-const ProcessingText = React.memo(({text = "Procesando", className=""}) => {
+const ProcessingText = React.memo(({text = "Procesando", className=""}:{
+    text?, className
+}) => {
     const [processingText, setProcessingText] = React.useState(0);
     const proccesingTextModes = [text, text+'.', text+'..', text+'...'];
     
@@ -103,7 +105,7 @@ function Process({config, close, clips = [], resourceData, userID, projectID}) {
         </div>
     );
 
-    const Porgress = React.memo( () => (
+    const Porgress = React.memo( ({current, done}:{current, done}) => (
         <Knob 
             value={done? current+1:current} 
             max={clips.length}
@@ -112,7 +114,7 @@ function Process({config, close, clips = [], resourceData, userID, projectID}) {
             valueColor={done?"LightGreen": "LightGray"}
             valueTemplate={"{value}/"+String(clips.length)}/>
 
-    ), [current])
+    ))
 
     return (
        <>
@@ -128,7 +130,7 @@ function Process({config, close, clips = [], resourceData, userID, projectID}) {
             <section className="p-mb-4">
                 <div className="p-d-flex p-jc-center">
                     {done && <i className='pi pi-check' style={{fontSize: '2rem', position: 'absolute', top: 'calc(50% - 1.5rem)', color: 'lightgreen'}}></i>}
-                    <Porgress/>
+                    <Porgress {...{current, done}}/>
                 </div>
                 
                 <div className="" style={{textAlign:"center"}}>

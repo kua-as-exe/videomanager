@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, Redirect, Route, Switch, useLocation } from 'react-router-dom'
+import { JsxElement } from 'typescript'
+import { IconType } from 'react-icons'
+import { Element } from 'react-use/lib/useSize'
 
 // Based on Bulma
 // https://bulma.io/documentation/components/tabs
@@ -29,12 +32,21 @@ const aligns = {
 const BulmaTabs = (
     {   // default params
         base, 
-        tabs = [{text:'', to:'', icon:<></>, component: ()=>(<></>)}], 
+        tabs = [], 
         tabsClass='', 
         tabsStyle="default",
         fullWith=false,
         align="left",
         size=''
+    }:{
+        base,
+        tabs: {
+            text: string
+            to: string 
+            icon?: Element, 
+            component?: Element
+        }[],
+        [key: string]: any
     }) => {
 
     const location = useLocation()

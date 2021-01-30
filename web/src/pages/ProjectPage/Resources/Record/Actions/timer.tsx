@@ -26,8 +26,17 @@ class Timer extends Component {
     timeLimit: PropTypes.number,
     defaultText: PropTypes.string
   }
+  timer;
+  state = {
+    seconds: 0,
+    human: ''
+  }
+  props = {
+    timeLimit: 0, 
+    defaultText: '0:00'
+  }
 
-  constructor (props) {
+  constructor (props:{timeLimit}) {
     super(props)
 
     const nextSeconds = props.timeLimit ? props.timeLimit / 1000 : 0

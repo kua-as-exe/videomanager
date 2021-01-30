@@ -3,7 +3,11 @@ import { FaArrowLeft, FaTrash } from 'react-icons/fa'
 import { Link, useHistory } from 'react-router-dom'
 import { api } from '../../api';
 
-export default React.memo( ({name, thumbnail, id: projectID, prefix, lastEdit, userID}) => {
+export default React.memo( ({userID, projectData}:{
+    projectData
+    userID
+}) => {
+    const {name, thumbnail, id, prefix, lastEdit, id: projectID} = projectData;
     console.log("Left panel");
     const history = useHistory();
     const handleDelete = async () => {

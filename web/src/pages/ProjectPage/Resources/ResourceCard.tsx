@@ -50,7 +50,7 @@ function ResourceCard({handleDelete, userID, projectID, resourceData }) {
                 </div> */}
             </div>
             <footer className="card-footer">
-                <a onClick={()=>setSidebar(true)} disabled={true} className="card-footer-item">Editar</a>
+                <a onClick={()=>setSidebar(true)} className="card-footer-item">Editar</a>
                 <a onClick={()=>setInfoModal(true)} className="card-footer-item">Ver</a>
                 <a onClick={handleDelete} className="card-footer-item">Eliminar</a>
             </footer>
