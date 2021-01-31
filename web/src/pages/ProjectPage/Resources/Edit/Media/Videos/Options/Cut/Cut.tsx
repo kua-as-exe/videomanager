@@ -234,7 +234,7 @@ function Cut() {
                     </div>
                     <div className="p-d-inline-flex p-ml-3 p-ai-center">
                         <InputSwitch checked={fit} onChange={(e) => setFit(e.value)} className="p-mr-2" />
-                        <Button onClick={addClip} icon="pi pi-eject" className="p-button-warning p-mr-2" />
+                        {/* <Button onClick={addClip} icon="pi pi-eject" className="p-button-warning p-mr-2" /> */}
                         <Button onClick={addClip} icon="pi pi-arrow-right" />
                     </div>
                 </div>
