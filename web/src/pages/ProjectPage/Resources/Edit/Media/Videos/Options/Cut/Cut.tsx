@@ -15,11 +15,17 @@ import ClipsList from './ClipsList'
 import {generate} from 'randomstring';
 
 import { Button } from 'primereact/button'
+import { Slider } from 'primereact/slider';
 import {SplitButton} from 'primereact/splitbutton';
+import {InputSwitch} from 'primereact/inputswitch';
+import { Splitter, SplitterPanel } from 'primereact/splitter';
+
 import ProcessDialogue from './ProcessDialogue'
 import { useDebounce } from "react-recipes";
 
 import {isEqual} from 'lodash';
+import PlayLine from './PlayLine'
+import './Cut.scss'
 
 const now = new Date();
 const clearDate = set(now, { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 });
@@ -37,24 +43,28 @@ function Cut() {
     const duration = resourceData?.metadata?.format?.duration || -1;
     
     const src = `/api/user/${userID}/project/${projectID}/resources/${fileName}`;
-    const [video, state, controls, /* ref */] = useVideo( <video src={src} controls /> );
+    const [video, state, controls, videoRef] = useVideo( <video src={src} controls /> );
 
     const [selectedInterval, setSelectedInterval] = React.useState([ clearDate, addSeconds(clearDate, duration) ])
     const debouncedSelectedInterval = useDebounce(selectedInterval, 200);
     const timelineInterval = [ clearDate, addSeconds(clearDate, duration) ];
     const [error, setError] = React.useState(false);
     const [playOnSeek, setPlayOnSeek] = React.useState(false);
+    const [timelineZoom, setTimelineZoom] = React.useState(1);
+    const [fit, setFit] = React.useState(false);
     
     const onChangeCallback = (interval) => setSelectedInterval(interval);
     React.useEffect( () => {
         let {time, paused} = state;
         let startSecond = getTotalSeconds(selectedInterval[0]);
         let endSecond = getTotalSeconds(selectedInterval[1]);
-        if(time < startSecond)
-            controls.seek(startSecond);
-        if(time > endSecond && !paused){
-            controls.seek(endSecond);
-            controls.pause()
+        if(fit && !paused){
+            if(time < startSecond)
+                controls.seek(startSecond);
+            if(time > endSecond){
+                controls.seek(endSecond);
+                controls.pause()
+            }
         }
     }, [state, selectedInterval])
 
@@ -91,7 +101,7 @@ function Cut() {
         setClips([ ...clips,
             {
                 id: generate(3),
-                name: `Clip ${clips.length}`,
+                name: `${clips.length}`,
                 interval: selectedInterval,
                 src,
             }
@@ -124,12 +134,45 @@ function Cut() {
                 Duración: {formatDistance(selectedInterval[0], selectedInterval[1], {includeSeconds: true})}
             </div>
             <div className="">
+
+                <Button severity="warning" className="p-0 p-button-sm p-button-warning p-mr-1"
+                    onClick={ () => {
+                        setSelectedInterval([
+                            addSeconds( clearDate, state.time ), /* The time */
+                            selectedInterval[1]
+                        ])
+                    }}>
+                    <Tag 
+                        icon="pi pi-step-backward-alt" 
+                        severity="warning"
+                        style={{padding: '0.17rem 0.2rem'}}/>
+                </Button>        
+                <Button severity="warning" className="p-0 p-button-sm p-button-warning p-mr-2"
+                    onClick={ () => {
+                        setSelectedInterval([
+                            selectedInterval[0],
+                            addSeconds( clearDate, state.time ) /* The time */
+                        ])
+                    }}>
+                    <Tag 
+                        icon="pi pi-step-forward-alt" 
+                        severity="warning"
+                        style={{padding: '0.17rem 0.2rem'}}/>
+                </Button>   
+
+                
                 <Tag className="p-mr-2" value={format(selectedInterval[0], "HH:mm:ss")}></Tag>
                 <Tag className="" value={format(selectedInterval[1], "HH:mm:ss")}></Tag>
             </div>
         </div>
     ), (prev, next) => isEqual(prev, next) )
-    
+    const [pre, setPre] = React.useState("Clip-");
+    const [videoSpeed, setVideoSpeed] = React.useState(0);
+    const videSpeedChangeRate = 25;
+    const getPlaybackRate = React.useMemo( ()=>((videoSpeed/videSpeedChangeRate)/2+1), [videoSpeed])
+    React.useEffect(()=>{
+        videoRef.current.playbackRate = getPlaybackRate;
+    }, [getPlaybackRate])
 
     const [processModal, setProcessModal] = React.useState({
         visible: false, options: {mode: PROCESS_MODES.SAVE_INDEPENDENT},
@@ -142,45 +185,67 @@ function Cut() {
                 userID,
                 projectID,
                 resourceData,
-                clips
+                clips,
+                pre
             }}
             config={processModal} 
             close={()=>setProcessModal({...processModal, visible: false})}
         />}
 
-        <div className="columns">
-            <div className="column is-6">
+        <Splitter style={{border: '0'}}>
+            <SplitterPanel>
                 <Info/>
                 {video}
                 <VideoData/>
 
-                    
-                <TimeRange
-                    error={error}  
-                    step={1}
-                    ticksNumber={10}
-                    selectedInterval={selectedInterval}  
-                    timelineInterval={timelineInterval}  
-                    onUpdateCallback={({err}) => setError(err)}  
-                    onChangeCallback={onChangeCallback}
-                    containerClassName="timeline pt-5 mt-2 pb-5 mb-4"
-                    // disabledIntervals={disabledIntervals}  
-                    />
-                <div className="p-d-flex p-jc-between">
-                    <div className="">
-                        
+                <div className="timeline-wrapper">
+                    <div className="timeline" style={{width: (timelineZoom*2+100)+"%"}}>
+                        <PlayLine time={state.time} duration={state.duration}/>
+                        <TimeRange
+                            error={error}  
+                            step={1}
+                            selectedInterval={selectedInterval}  
+                            timelineInterval={timelineInterval}  
+                            onUpdateCallback={({err}) => setError(err)}  
+                            onChangeCallback={onChangeCallback}
+                            containerClassName="pt-5 pb-5 mb-4"
+                            // disabledIntervals={disabledIntervals}  
+                            />
+                    </div>   
+                </div>
+                <div className="p-d-flex p-jc-between ">
+                    <div className="p-d-flex p-as-center p-ai-center" style={{width: '100%'}}>
+                        <div className="p-d-inline-flex p-ai-center">
+                            <Slider 
+                                style={{width: '5rem'}} 
+                                value={videoSpeed} 
+                                onChange={(e) => setVideoSpeed(Number(e.value))}
+                                step={videSpeedChangeRate} />
+                            <span className="p-ml-3">X{getPlaybackRate}</span>
+                        </div>
+                        <div className="p-ml-3 p-d-inline-flex p-ai-center" style={{width: '100%'}} >
+                            <Slider 
+                                style={{width: '100%'}} 
+                                value={timelineZoom} 
+                                onChange={(e) => setTimelineZoom(Number(e.value))} step={0.01} />
+                            <span className="p-ml-3">{timelineZoom}</span>
+                        </div>
+
                     </div>
-                    <div className="">
+                    <div className="p-d-inline-flex p-ml-3 p-ai-center">
+                        <InputSwitch checked={fit} onChange={(e) => setFit(e.value)} className="p-mr-2" />
                         <Button onClick={addClip} icon="pi pi-eject" className="p-button-warning p-mr-2" />
                         <Button onClick={addClip} icon="pi pi-arrow-right" />
                     </div>
                 </div>
-            </div>
-            <div className="column">
+            </SplitterPanel>
+            <SplitterPanel >
+                <div style={{width: '100%'}}>
                 <ClipsList
-                    functions= {{ selectClip, removeClip, updateClip}}
+                    functions= {{ selectClip, removeClip, updateClip, setPre}}
                     items={clips}
-                    setItems={setClips}    
+                    setItems={setClips}
+                    pre={pre}
                     />
                 <div className="p-d-flex p-m-3">
                     <SplitButton 
@@ -218,10 +283,9 @@ function Cut() {
                         disabled={true}
                         onClick={addClip}/>
                 </div>
-
-            </div>
-
-        </div>
+                </div>
+            </SplitterPanel>
+        </Splitter>
         </div>
     )
 }

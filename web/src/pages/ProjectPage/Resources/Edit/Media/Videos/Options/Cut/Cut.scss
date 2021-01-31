@@ -1,3 +1,43 @@
 .timeline{
     //padding-top: 1.5rem;
 }
+.timeline-wrapper{
+    height: 60px;
+    padding-bottom: 5px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar{
+        background-color:transparent;
+        height: 8px;
+        padding-bottom: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb{
+        border-radius: 10px;
+        height: 2px;
+        background-color: #4b4b4b;
+    }
+    
+}
+
+.react_time_range__tick_marker{
+    position: absolute;
+    margin-top: 15px;
+    width: 1px;
+    height: 10px;
+    background-color: #000000;
+    z-index: 2;
+}
+.react_time_range__tick_label{
+    display: none;
+}
+
+.list-item-name{
+ margin-left: -0.429rem
+}
+
+.p-splitter .p-splitter-gutter{
+    background: none;
+    margin: 0 0.5rem;
+}

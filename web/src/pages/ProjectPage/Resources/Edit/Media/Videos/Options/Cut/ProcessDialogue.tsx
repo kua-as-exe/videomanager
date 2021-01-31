@@ -44,7 +44,7 @@ const ProcessingText = React.memo(({text = "Procesando", className=""}:{
     
 })
 
-function Process({config, close, clips = [], resourceData, userID, projectID}) {
+function Process({config, close, clips = [], resourceData, userID, projectID, pre}) {
     const {visible, options: {mode} } = config;
     const [current, setCurrent] = React.useState(0)
     const [done, setDone] = React.useState(false)
@@ -58,9 +58,11 @@ function Process({config, close, clips = [], resourceData, userID, projectID}) {
     React.useEffect(() => {
         console.log(current);
         if(done) return;
-        const {name, interval:[start, end]} = clips[current]
+        let {name, interval:[start, end]} = clips[current];
+        name = pre+name;
         requestExtractClips({
-            resourceData, name,
+            resourceData, 
+            name,
             start: getTotalSeconds(start),
             end: getTotalSeconds(end),
             mode
