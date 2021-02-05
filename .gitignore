@@ -1,5 +1,6 @@
 node_modules/
-/web/build/*
+web/build/*
+backend/public/*
 /backend/contents/*
 
 #misc
@@ -8,10 +9,9 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
-.eslintcache
+web/.eslintcache
 
 debug.log
-.eslintcache
 
 npm-debug.log*
 yarn-debug.log*

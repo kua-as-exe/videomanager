@@ -10,8 +10,9 @@
   "scripts": {
     "web": "powershell; cd ./web ; npm run start",
     "server": "powershell; cd ./backend ; nodemon",
-    "build": "powershell; cd ./client ; npm run build; cd ../ ; npm run move; echo 'Done'",
-    "move": "powershell; rm -r ./api/public/* ; cp -r ./client/build/* ./api/public/"
+    "start": "cd ./backend; npm run start",
+    "build": "powershell; cd ./web ; npm run build; cd ../ ; npm run move; echo 'Done'",
+    "move": "powershell; rm -r ./backend/public/* ; cp -r ./web/build/* ./backend/public/"
   },
   "author": "Jorge Arreola",
   "license": "ISC"
