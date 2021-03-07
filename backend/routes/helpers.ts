@@ -94,6 +94,7 @@ export const toTileCase = (phrase):string => {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   };
+  
 
 // export const uniqueName = (name) => toTileCase(name).replace(/ /g, '')+'_'+uuidv4()
 export const uniqueName = (name) => toTileCase(name).replace(/ /g, '')+'_'+generate(4)
