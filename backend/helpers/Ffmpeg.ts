@@ -1,11 +1,9 @@
-import * as Ffmpeg from 'fluent-ffmpeg';
+import Ffmpeg from 'fluent-ffmpeg';
 import { existsSync, mkdirSync } from 'fs';
 import {v4 as uuidv4} from 'uuid';
 import { join } from 'path';
+import { binPaths, getBinPaths } from '../bin/binaries'
 
-const ffmpeg = new Ffmpeg();
-export const ffprobeBin = './bin/ffmpeg/ffprobe.exe';
-export const ffmpegBin = './bin/ffmpeg/ffmpeg.exe';
 export const commonMimetypes = {
     '.mp4': 'video',
     '.mkv': 'video',
@@ -15,20 +13,15 @@ export const commonMimetypes = {
 }
 
 const setPaths = (f = null) => {
-    if(f){
-        f.setFfprobePath(ffprobeBin);
-        f.setFfmpegPath(ffmpegBin);
-        return f
-    }else{
-        ffmpeg.setFfprobePath(ffprobeBin);
-        ffmpeg.setFfmpegPath(ffmpegBin);
-        return
-    }
+    let {ffmpeg, ffprobe} = getBinPaths();
+    f.setFfprobePath(ffprobe);
+    f.setFfmpegPath(ffmpeg);
+    return f
 }
 
 export const getMetadata = (filePath: string): Promise<[data: {[key:string]: any}, error: Error]> => new Promise((resolve, reject)=>{
-    setPaths();
-    ffmpeg.input(filePath).ffprobe((err: Error, data)=> {
+    let f = setPaths(new Ffmpeg());
+    f.input(filePath).ffprobe((err: Error, data)=> {
         if(err) reject([ null, err])
         resolve([data, null])
     })
@@ -95,7 +88,7 @@ export const mergeCommand = (paths: string[], output: string) => {
         '[v]fps=fps=25[v25]'
     ].join(";")
     let command: string[] = [
-        ffmpegBin, '-y', '-loglevel warning',
+        getBinPaths().ffmpeg, '-y', '-loglevel warning',
         paths.map( file => `-i ${file}`).join(' '),
         `-filter_complex "${filter_complex}"`,
         ` -map "[v25]" -map "[a]" -c:a aac -c:v h264 -crf 18 -preset veryfast -f mp4 ${output}`

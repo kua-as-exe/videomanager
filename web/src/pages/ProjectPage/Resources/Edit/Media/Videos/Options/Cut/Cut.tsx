@@ -18,6 +18,7 @@ import { Button } from 'primereact/button'
 import { Slider } from 'primereact/slider';
 import {SplitButton} from 'primereact/splitbutton';
 import {InputSwitch} from 'primereact/inputswitch';
+// @ts-ignore
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 
 import ProcessDialogue from './ProcessDialogue'

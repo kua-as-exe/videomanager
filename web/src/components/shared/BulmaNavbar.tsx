@@ -24,11 +24,12 @@ function BulmaNavbar({links = [], logoUrl = '', brandText = ''}) {
     const exit = () => setIsActive(false);
     const Links = () => {
         return ( 
-        <>{links.map( link => (
-            <Link className="navbar-item" 
+        <>{links.filter(link => link.invisible !== true).map( link => (
+            <Link className="navbar-item disabled"
                 to={link.to}
                 key={link.to}
-                onClick={exit}>
+                onClick={exit}
+            >
                 {link.text}
             </Link>
         ))}</>)

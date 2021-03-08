@@ -23,10 +23,10 @@ function Main() {
                 logoUrl = {user.logo}
                 brandText={user.name}
                 links = {[
-                    {text:'Inicio', to:"/#"}, 
-                    {text:'Panel', to:`/${userID}/dashboard`}, 
-                    {text:'Videos', to:`/${userID}/videos`}, 
-                    {text:'Musikita', to:`/${userID}/musikita`}, 
+                    {text:'Inicio', to:"/"}, 
+                    {text:'Panel', to:`/${userID}/dashboard`, invisible: true}, 
+                    {text:'Videos', to:`/${userID}/videos`, invisible: true}, 
+                    {text:'Musikita', to:`/${userID}/musikita`, invisible: true}, 
                 ]}
             />
             <Switch>

@@ -11,8 +11,8 @@
     "web": "powershell; cd ./web ; npm run start",
     "server": "powershell; cd ./backend ; nodemon",
     "start": "cd ./backend; npm run start",
-    "build": "powershell; cd ./web ; npm run build; cd ../ ; npm run move; echo 'Done'",
-    "move": "powershell; rm -r ./backend/public/* ; cp -r ./web/build/* ./backend/public/"
+    "build": "cd ./web ; npm run build; cd ../ ; npm run move; echo 'Done'",
+    "move": "rm -r ./backend/public/* ; cp -r ./web/build/* ./backend/public/"
   },
   "author": "Jorge Arreola",
   "license": "ISC"
