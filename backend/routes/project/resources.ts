@@ -1,11 +1,11 @@
-import * as fileUpload from 'express-fileupload';
+import fileUpload from 'express-fileupload';
 import {UploadedFile} from 'express-fileupload'
 import * as express from 'express'
 import * as uuid from 'uuid';
 import { uniqueName, useApi, Resource } from '../helpers';
 import { join, parse } from 'path';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, unlinkSync, writeFileSync, renameSync, statSync } from 'fs';
-import { commonMimetypes, ffmpegBin, getMetadata, mergeCommand, mergeFiles } from '../../helpers/Ffmpeg';
+import { commonMimetypes, getMetadata, mergeCommand, mergeFiles } from '../../helpers/Ffmpeg';
 import { spawn, spawnSync } from 'child_process';
 import { tools } from './resourcesUtils/tools';
 
